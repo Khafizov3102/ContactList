@@ -7,23 +7,19 @@
 
 import UIKit
 
-class PersonInformationViewController: UIViewController {
-
+final class PersonInformationViewController: UIViewController {
+    
+    @IBOutlet weak var phoneNumberLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    
+    var personInfo: Person!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        title = personInfo.fullName
+        
+        phoneNumberLabel.text = "Phone: \(personInfo.phoneNumber)"
+        emailLabel.text = "Email: \(personInfo.email)"
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

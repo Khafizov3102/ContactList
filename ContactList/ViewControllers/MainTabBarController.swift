@@ -7,14 +7,29 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
+final class MainTabBarController: UITabBarController {
     
     private var personsList: [Person] = []
     private let dataStore = DataStore()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         generatePerson()
+        transferData()
+    }
+    
+    private func transferData() {
+        guard let viewControllers else { return }
+        
+        viewControllers.forEach {
+            if let navigationVC = $0 as? UINavigationController {
+                if let mainPersonsListVC = navigationVC.topViewController as? MainPersonsListViewController {
+                    mainPersonsListVC.personsList = personsList
+                } else if let secondPersonsListVC = navigationVC.topViewController as? SecondListViewController {
+                    secondPersonsListVC.personsList = personsList
+                }
+            }
+        }
     }
     
     private func generatePerson() {
@@ -23,16 +38,13 @@ class MainTabBarController: UITabBarController {
         let emailList = dataStore.emailList.shuffled()
         let phoneList = dataStore.phoneNumberList.shuffled()
         
-        for i in 0..<nameList.count {
-            personsList.append(Person(name: nameList[i], surname: surnameList[i], email: emailList[i], phoneNumber: phoneList[i]))
+        for counter in 0..<nameList.count {
+            personsList.append(Person(
+                name: nameList[counter],
+                surname: surnameList[counter],
+                email: emailList[counter],
+                phoneNumber: phoneList[counter])
+            )
         }
     }
-    
-
-    // MARK: - Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-    }
-
 }
